@@ -13,7 +13,6 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import QDate, Qt, QThread, pyqtSignal # for handle dates and
 #enable communication between threads and the main UI
 
-
 class SalesHistoryWindow(QMainWindow):
     def __init__(self, user_id, db_config, dashboard_window):
         super().__init__()
