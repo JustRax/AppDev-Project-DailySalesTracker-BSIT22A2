@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2025 at 07:43 PM
+-- Generation Time: May 03, 2025 at 08:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -46,7 +46,9 @@ INSERT INTO `orders` (`orderId`, `productId`, `userId`, `quantity`, `totalPrice`
 (6, 0, 9, 0, 22.00, 22.00, 11.00, '2025-04-22 00:35:55'),
 (7, 0, 9, 0, 46.00, 46.00, 4.00, '2025-04-22 00:51:58'),
 (8, 0, 9, 0, 10.00, 10.00, 40.00, '2025-04-22 01:06:08'),
-(9, 0, 9, 0, 40.00, 40.00, 19.00, '2025-04-22 01:09:33');
+(9, 0, 9, 0, 40.00, 40.00, 19.00, '2025-04-22 01:09:33'),
+(10, 0, 9, 0, 10.00, 10.00, 212.00, '2025-05-01 21:02:42'),
+(11, 0, 9, 0, 80.00, 80.00, 320.00, '2025-05-04 02:14:48');
 
 -- --------------------------------------------------------
 
@@ -72,7 +74,10 @@ INSERT INTO `order_details` (`orderDetailId`, `orderId`, `productId`, `quantity`
 (3, 7, 2, 1, 12.00),
 (4, 7, 3, 1, 34.00),
 (5, 8, 4, 1, 10.00),
-(6, 9, 5, 2, 40.00);
+(6, 9, 5, 2, 40.00),
+(7, 10, 4, 1, 10.00),
+(8, 11, 2, 1, 12.00),
+(9, 11, 3, 2, 68.00);
 
 -- --------------------------------------------------------
 
@@ -102,19 +107,6 @@ INSERT INTO `products` (`productId`, `productName`, `price`, `stock`, `userId`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `saleshistory`
---
-
-CREATE TABLE `saleshistory` (
-  `salesId` int(11) NOT NULL,
-  `orderId` int(11) NOT NULL,
-  `totalSales` decimal(10,2) NOT NULL,
-  `salesDate` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user`
 --
 
@@ -133,9 +125,6 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userId`, `name`, `username`, `password`, `gender`, `accountDateCreated`, `favoriteFood`) VALUES
-(1, 'alex', 'alex', 'alex', 'Female', '2025-04-18 23:51:32', NULL),
-(3, 'alexa', 'alexa', 'alexa', 'Male', '2025-04-18 23:58:55', NULL),
-(8, 'aa', 'aa', '62f62bc9dced264a35aa3d3d9df39a200197e3a371b6d7b803ba132ef2da33f9:8814d3f9b1e17f34cae65703a69d0273', 'Male', '2025-04-20 02:36:15', 'aa'),
 (9, 'qq', 'qq', '8fe81faf0f191abc886edf805712cf4a25a26d079b398c05b7bc9eb447bbf0d0:765796f71b7ca375a6db0fda8f5ac317', 'Male', '2025-04-20 19:01:46', '11fe9c908a4afd786c0135206cbe6c1a56ec7732480fb5a3a3dbd6aa8bca5456:d03954280e9ecc79f47d06bfffa10dbd');
 
 --
@@ -166,13 +155,6 @@ ALTER TABLE `products`
   ADD KEY `fk_user_products` (`userId`);
 
 --
--- Indexes for table `saleshistory`
---
-ALTER TABLE `saleshistory`
-  ADD PRIMARY KEY (`salesId`),
-  ADD KEY `orderId` (`orderId`);
-
---
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -187,25 +169,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderDetailId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `orderDetailId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `saleshistory`
---
-ALTER TABLE `saleshistory`
-  MODIFY `salesId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -235,12 +211,6 @@ ALTER TABLE `order_details`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `fk_user_products` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
-
---
--- Constraints for table `saleshistory`
---
-ALTER TABLE `saleshistory`
-  ADD CONSTRAINT `saleshistory_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`orderId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

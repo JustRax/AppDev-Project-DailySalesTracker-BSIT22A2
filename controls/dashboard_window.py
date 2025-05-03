@@ -63,6 +63,7 @@ class DashboardWindow(QMainWindow):
         #open yunng sales report
         self.sales_report_window = SalesHistoryWindow(
             user_id=self.user_data["userId"],
+            
             db_config=self.db_config,
             dashboard_window=self
         )
@@ -92,12 +93,6 @@ class DashboardWindow(QMainWindow):
         else:
             self.show_login_prompt("Sales Report")
 
-    def check_login_for_store(self):
-        if self.is_logged_in:
-            self.open_store_section()
-        else:
-            self.show_login_prompt("Store")
-
     def show_login_prompt(self, section):
         msg = QMessageBox(self)
         msg.setWindowTitle("Login Required")
@@ -119,13 +114,11 @@ class DashboardWindow(QMainWindow):
         self.login_window.show()
         self.close()
 
-
     def on_login_success(self, user_data):
         self.user_data = user_data
         self.is_logged_in = True
         if self.login_window:
             self.login_window.close()
-
 
     def redirect_to_account(self):
         self.account_window = AccountWindow(
@@ -135,8 +128,7 @@ class DashboardWindow(QMainWindow):
         )
         self.account_window.show()
         self.close()
-
-    
+  
     def show_dashboard_again(self):
         self.new_dashboard = DashboardWindow(self.user_data, self.db_config)
         self.new_dashboard.is_logged_in = True
