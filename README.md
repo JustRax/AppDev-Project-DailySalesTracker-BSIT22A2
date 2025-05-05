@@ -12,4 +12,4 @@ pandas – Used to handle and display sales history data in tabular format.
 openpyxl - Used for handling the printing tabular data of sales history for excel.
 reportlab – Used for exporting reports in PDF format.
 mariadb – Used for establishing a connection with the MariaDB database.
-fpdf – Used for exporting data to PDF formats.
+fpdf – Used for exporting data to PDF formats

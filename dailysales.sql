@@ -133,7 +133,7 @@ INSERT INTO `user` (`userId`, `name`, `username`, `password`, `gender`, `account
 
 --
 -- Indexes for table `orders`
---
+
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`orderId`),
   ADD KEY `userId` (`userId`),
