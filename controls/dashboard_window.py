@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QMessageBox, QLabel
 from PyQt6 import uic
 from controls.account_window import AccountWindow
 from main import LoginWindow 
@@ -6,6 +6,8 @@ from db.db_functions import Database
 from controls.add_product import ProductMainWindow
 from controls.order import MakeOrderWindow
 from controls.sales_history import SalesHistoryWindow
+from PyQt6.QtCore import QDateTime, QTimer #added sa time ng dashboard
+
 class DashboardWindow(QMainWindow):
     def __init__(self, user_data, db_config, parent=None):
         super().__init__(parent)
@@ -25,6 +27,17 @@ class DashboardWindow(QMainWindow):
         #sa combobox handling
         self.choices.currentTextChanged.connect(self.handle_choice_change)
 
+        #datetimer
+        self.dateTimeLabel = self.findChild(QLabel, "dateTimeLabel")
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_date_time)
+        self.timer.start(1000)
+        self.update_date_time()
+
+    def update_date_time(self):
+        current_datetime = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")   
+        self.dateTimeLabel.setText(f"Date & Time: {current_datetime}")
+        
     def handle_choice_change(self, choice):
         if choice == "Dashboard":
             self.set_buttons_visible(True)
@@ -36,7 +49,6 @@ class DashboardWindow(QMainWindow):
         self.productBtn.setVisible(visible)
         self.makeorderBtn.setVisible(visible)
         self.salesreportBtn.setVisible(visible)
-        self.storeBtn.setVisible(visible)
     
     def open_products_section(self):
         #open yung products
@@ -63,7 +75,6 @@ class DashboardWindow(QMainWindow):
         #open yunng sales report
         self.sales_report_window = SalesHistoryWindow(
             user_id=self.user_data["userId"],
-            
             db_config=self.db_config,
             dashboard_window=self
         )
@@ -128,7 +139,7 @@ class DashboardWindow(QMainWindow):
         )
         self.account_window.show()
         self.close()
-  
+    
     def show_dashboard_again(self):
         self.new_dashboard = DashboardWindow(self.user_data, self.db_config)
         self.new_dashboard.is_logged_in = True
